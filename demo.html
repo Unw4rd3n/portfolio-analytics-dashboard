@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Демо дашборда аналитики - Портфолио</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .demo-header {
+            background: linear-gradient(135deg, #4ecdc4, #45b7d1);
+            padding: 2rem 0;
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        
+        .demo-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .demo-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            color: white;
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i>
+        Назад к портфолио
+    </a>
+    
+    <div class="demo-header">
+        <h1>Дашборд аналитики</h1>
+        <p>Интерактивная демонстрация возможностей аналитического дашборда</p>
+    </div>
+
+    <!-- Секция дашборда аналитики -->
+    <section id="analytics" class="section analytics-section">
+        <div class="container">
+            <h2 class="section-title">Дашборд аналитики</h2>
+            <p class="analytics-subtitle">Интерактивная аналитика и метрики в реальном времени</p>
+            
+            <!-- Фильтры и настройки -->
+            <div class="analytics-controls">
+                <div class="time-filter">
+                    <button class="filter-btn active" data-period="7d">7 дней</button>
+                    <button class="filter-btn" data-period="30d">30 дней</button>
+                    <button class="filter-btn" data-period="90d">90 дней</button>
+                    <button class="filter-btn" data-period="1y">1 год</button>
+                </div>
+                <div class="refresh-controls">
+                    <button class="refresh-btn" id="refreshData">
+                        <i class="fas fa-sync-alt"></i>
+                        Обновить
+                    </button>
+                    <div class="auto-refresh">
+                        <label>
+                            <input type="checkbox" id="autoRefresh" checked>
+                            Автообновление
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Основные метрики -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>Посетители</h3>
+                        <div class="metric-value" id="visitors">12,847</div>
+                        <div class="metric-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>+12.5%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>Просмотры</h3>
+                        <div class="metric-value" id="pageViews">45,231</div>
+                        <div class="metric-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>+8.3%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>Время на сайте</h3>
+                        <div class="metric-value" id="avgTime">3:42</div>
+                        <div class="metric-change negative">
+                            <i class="fas fa-arrow-down"></i>
+                            <span>-2.1%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>Конверсия</h3>
+                        <div class="metric-value" id="conversion">4.2%</div>
+                        <div class="metric-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>+1.8%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Графики и диаграммы -->
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Трафик по дням</h3>
+                        <div class="chart-legend">
+                            <span class="legend-item">
+                                <span class="legend-color" style="background: #4ecdc4;"></span>
+                                Посетители
+                            </span>
+                            <span class="legend-item">
+                                <span class="legend-color" style="background: #ff6b6b;"></span>
+                                Просмотры
+                            </span>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="trafficChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Источники трафика</h3>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="sourcesChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Устройства</h3>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="devicesChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>География</h3>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="geoChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Таблица данных -->
+            <div class="data-table-container">
+                <div class="table-header">
+                    <h3>Детальная статистика</h3>
+                    <div class="table-controls">
+                        <input type="text" id="searchTable" placeholder="Поиск...">
+                        <select id="sortTable">
+                            <option value="date">По дате</option>
+                            <option value="visitors">По посетителям</option>
+                            <option value="views">По просмотрам</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table" id="analyticsTable">
+                        <thead>
+                            <tr>
+                                <th>Дата</th>
+                                <th>Посетители</th>
+                                <th>Просмотры</th>
+                                <th>Время на сайте</th>
+                                <th>Отказы</th>
+                                <th>Конверсия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- Данные будут загружены через JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Экспорт данных -->
+            <div class="export-section">
+                <h3>Экспорт данных</h3>
+                <div class="export-buttons">
+                    <button class="export-btn" id="exportCSV">
+                        <i class="fas fa-file-csv"></i>
+                        CSV
+                    </button>
+                    <button class="export-btn" id="exportPDF">
+                        <i class="fas fa-file-pdf"></i>
+                        PDF
+                    </button>
+                    <button class="export-btn" id="exportExcel">
+                        <i class="fas fa-file-excel"></i>
+                        Excel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="analytics-dashboard.js"></script>
+</body>
+</html>
